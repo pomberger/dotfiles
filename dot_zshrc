@@ -37,11 +37,12 @@ HISTFILE=~/.zsh_history
 # zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 export PATH="$HOME/.local/bin:$PATH"
-eval "$(starship init zsh)"
 
 . "$HOME/.local/bin/env"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 eval "$(zoxide init zsh)"
+eval "$(starship init zsh)"
 
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
