@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Exit immediately if a command exits with a non-zero status
+set -e
+
+echo "=== 1. Checking Homebrew installation ==="
+if ! command -v brew &> /dev/null; then
+    echo "Homebrew not found. Starting installation..."
+    /bin/bash -c "$(curl -fsSL https://githubusercontent.com)"
+
+    # Add Homebrew to PATH for the current session
+    if [[ -x "/opt/homebrew/bin/brew" ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    elif [[ -x "/usr/local/bin/brew" ]]; then
+        eval "$(/usr/local/bin/brew shellenv)"
+    elif [[ -x "/home/linuxbrew/.linuxbrew/bin/brew" ]]; then
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    fi
+fi
+
+echo "=== 2. Installing Homebrew packages ==="
+brew bundle --file=/dev/stdin <<EOF
+brew "bat"
+brew "chezmoi"
+brew "eza"
+brew "fd"
+brew "fzf"
+brew "gomi"
+brew "jq"
+brew "ripgrep"
+brew "zoxide"
+brew "zsh"
+brew "zsh-completions"
+brew "zsh-history-substring-search"
+EOF
+
+echo "=== Done! All packages are up to date. ==="
