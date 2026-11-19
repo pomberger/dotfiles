@@ -1,0 +1,31 @@
+{{- if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "ubuntu") -}}
+#!/bin/bash
+set -euo pipefail
+
+# Pakete, die über apt installiert werden sollen (inkl. Basis für Homebrew)
+packages=(
+    build-essential
+    procps
+    curl
+    file
+    git
+    zsh
+    tmux
+)
+
+echo "=== 1. Ubuntu erkannt: Installiere apt-Pakete ==="
+sudo apt-get update
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y "${packages[@]}"
+
+echo "=== 2. Prüfe Standard-Shell (zsh) ==="
+ZSH_PATH="$(command -v zsh)"
+
+if [ -n "$ZSH_PATH" ] && [ "$SHELL" != "$ZSH_PATH" ]; then
+    echo "Setze $ZSH_PATH als Standard-Shell für Benutzer $USER..."
+    sudo chsh -s "$ZSH_PATH" "$USER"
+    echo "Hinweis: Bitte einmal neu einloggen, damit zsh aktiv wird."
+else
+    echo "zsh ist bereits als Standard-Shell eingerichtet."
+fi
+
+{{- end -}}
