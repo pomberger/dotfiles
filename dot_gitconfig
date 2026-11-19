@@ -1,0 +1,5 @@
+[user]
+	name = Hannes Pomberger
+	email = pomberger@gmail.com
+[init]
+	defaultBranch = main
